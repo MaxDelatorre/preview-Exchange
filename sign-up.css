@@ -31,7 +31,7 @@
         
         .right-side {
             flex: 1;
-            background-color: #1e1e1e;
+            background-color: #aaa8a8;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -85,7 +85,10 @@
         .form-container {
             width: 100%;
             max-width: 450px;
-            padding: 40px;
+            padding-right: 40px;
+            padding-left: 40px;
+            padding-top: 40px;
+            padding-bottom: 0px;
             border-radius: 15px;
             background-color: #2a2a2a;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
@@ -204,7 +207,8 @@
         
         .form-footer {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 5px;
+            padding-bottom: 40px;
             font-size: 16px;
             color: #9ca3af;
         }
