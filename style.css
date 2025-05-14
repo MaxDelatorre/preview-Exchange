@@ -1,4 +1,16 @@
-/* General Reset */
+/* Mobile container for right-aligned elements */
+.mobile-container {
+    display: none;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+}
+
+@media (max-width: 992px) {
+    .mobile-container {
+        display: flex;
+    }
+}/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -171,6 +183,33 @@ header {
     gap: 30px;
 }
 
+/* Hamburger menu icon */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    margin-left: 15px;
+    z-index: 101; /* Higher z-index to stay above the dropdown */
+}
+
+.hamburger-menu span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Button container that stays visible on mobile */
+.mobile-buttons {
+    display: none;
+    gap: 10px;
+}
+
 /* Ensure mega menu doesn't get cut off on smaller screens */
 @media (max-width: 1200px) {
     .mega-menu {
@@ -181,24 +220,117 @@ header {
     }
 }
 
-/* Further adjustments for mobile */
+/* Tablet and mobile styles */
 @media (max-width: 992px) {
+    .navbar {
+        height: auto;
+        padding: 20px;
+        align-items: center;
+        position: relative;
+    }
+    
+    /* Move hamburger menu to far right */
+    .logo {
+        flex: 1;
+    }
+    
+    /* Ensure buttons and hamburger align right */
+    .mobile-container {
+        display: flex;
+        align-items: center;
+    }
+    
     .nav-container {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        flex: 0 0 auto;
+        margin-top: 0;
+        display: none; /* Hide by default on mobile */
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-start;
+        background-color: #1e1e1e;
+        border-radius: 0 0 10px 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+    }
+    
+    .nav-container.active {
+        display: flex; /* Show when active */
     }
     
     .nav-links {
         flex-direction: column;
-        align-items: flex-end;
-        gap: 10px;
+        align-items: flex-start;
+        width: 100%;
+        gap: 15px;
     }
     
-    .cta-button {
+    .dropdown {
+        width: 100%;
+    }
+    
+    .dropbtn {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px 0;
+        display: none;
+    }
+    
+    .dropdown-content.active {
+        display: block;
+    }
+    
+    .mega-menu {
+        position: static;
+        width: 100%;
+        transform: none;
+        padding: 15px;
         margin-top: 10px;
     }
-    .cta2-button {
-        margin-top: 10px;
+    
+    .mega-menu-container {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Show hamburger menu and mobile buttons */
+    .hamburger-menu {
+        display: flex;
+    }
+    
+    .mobile-buttons {
+        display: flex;
+    }
+    
+    /* Hide original button containers */
+    .cta-button, .cta2-button {
+        display: none;
+    }
+    
+    /* When hamburger is active */
+    .hamburger-menu.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    
+    .hamburger-menu.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger-menu.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+    
+    .nav-item {
+        width: 100%;
+        padding: 12px;
     }
 }
 
@@ -223,6 +355,11 @@ header {
     
     .mission-image, .mission-text {
         width: 100%;
+    }
+    
+    .get-started-btn {
+        padding: 10px 18px;
+        font-size: 15px;
     }
 }
 
@@ -493,57 +630,4 @@ main {
     line-height: 1.6;
     color: #9ca3af;
     margin-bottom: 30px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-    .navbar {
-        height: auto;
-        padding: 20px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .nav-container {
-        width: 100%;
-        margin-top: 20px;
-    }
-    
-    .hero-text h2 {
-        font-size: 36px;
-    }
-    
-    .hero-text p {
-        font-size: 18px;
-    }
-    
-    .mission-text h2 {
-        font-size: 30px;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-content {
-        flex-direction: column;
-    }
-    
-    .hero-buttons {
-        flex-direction: column;
-        gap: 15px;
-        width: 100%;
-    }
-    
-    .start-now-btn, .discover-btn {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .mission-container {
-        flex-direction: column;
-        padding: 30px 20px;
-    }
-    
-    .image-placeholder {
-        height: 300px;
-    }
 }
