@@ -1,4 +1,23 @@
-/* Mobile container for right-aligned elements */
+/* Fix for mobile browsers */
+.touch-device .hamburger-menu {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.touch-device .mobile-buttons a {
+    -webkit-tap-highlight-color: rgba(65, 105, 225, 0.3);
+}
+
+/* Fix for iOS Safari specifically */
+@supports (-webkit-touch-callout: none) {
+    .mobile-container {
+        display: flex;
+    }
+    
+    .hamburger-menu, 
+    .mobile-buttons {
+        display: flex;
+    }
+}/* Mobile container for right-aligned elements */
 .mobile-container {
     display: none;
     align-items: center;
@@ -334,32 +353,15 @@ header {
     }
 }
 
-@media (max-width: 768px) {
-    .mega-menu {
-        width: 100%;
-        max-height: 80vh;
-        overflow-y: auto;
+@media only screen and (max-width: 768px) {
+    .mobile-buttons .get-started-btn {
+        padding: 8px 16px;
+        font-size: 14px;
     }
     
-    .mega-menu-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .hero-content {
-        flex-direction: column;
-    }
-    
-    .mission-container {
-        flex-direction: column;
-    }
-    
-    .mission-image, .mission-text {
-        width: 100%;
-    }
-    
-    .get-started-btn {
-        padding: 10px 18px;
-        font-size: 15px;
+    .hamburger-menu {
+        width: 25px;
+        height: 18px;
     }
 }
 

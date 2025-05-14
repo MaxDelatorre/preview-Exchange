@@ -5,11 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburgerMenu = document.querySelector('.hamburger-menu');
     const navContainer = document.querySelector('.nav-container');
     
-    // Hamburger menu toggle functionality
+    // Fix for iOS touch events
+    if ('ontouchstart' in window) {
+        document.body.classList.add('touch-device');
+    }
+    
+    // Hamburger menu toggle functionality with touchstart for mobile
     if (hamburgerMenu) {
-        hamburgerMenu.addEventListener('click', function() {
-            hamburgerMenu.classList.toggle('active');
-            navContainer.classList.toggle('active');
+        ['click', 'touchstart'].forEach(eventType => {
+            hamburgerMenu.addEventListener(eventType, function(e) {
+                e.preventDefault();
+                hamburgerMenu.classList.toggle('active');
+                navContainer.classList.toggle('active');
+            });
         });
     }
     
@@ -17,61 +25,67 @@ document.addEventListener('DOMContentLoaded', function() {
         const dropdownContent = dropdown.querySelector('.dropdown-content');
         const dropbtn = dropdown.querySelector('.dropbtn');
         
-        // For mobile: toggle dropdown on click
-        dropbtn.addEventListener('click', function(e) {
-            if (window.innerWidth < 992) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // Close all other dropdowns
+        // For mobile: toggle dropdown on click/touch
+        ['click', 'touchstart'].forEach(eventType => {
+            dropbtn.addEventListener(eventType, function(e) {
+                if (window.innerWidth < 992) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown-content').forEach(content => {
+                        if (content !== dropdownContent && content.classList.contains('active')) {
+                            content.classList.remove('active');
+                            content.style.display = 'none';
+                            content.closest('.dropdown').querySelector('.dropbtn').classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    if (dropdownContent.classList.contains('active')) {
+                        dropdownContent.classList.remove('active');
+                        dropdownContent.style.display = 'none';
+                        dropbtn.classList.remove('active');
+                    } else {
+                        dropdownContent.classList.add('active');
+                        dropdownContent.style.display = 'block';
+                        dropbtn.classList.add('active');
+                    }
+                }
+            });
+        });
+    });
+    
+    // Ensure touchstart events are properly handled for devices
+    ['click', 'touchstart'].forEach(eventType => {
+        document.addEventListener(eventType, function(e) {
+            // Only close dropdowns if click is outside dropdown and not on hamburger menu
+            if (!e.target.closest('.dropdown') && !e.target.closest('.hamburger-menu')) {
+                // Don't close the entire nav-container if we're on mobile and clicked outside
+                // Only close individual dropdowns
                 document.querySelectorAll('.dropdown-content').forEach(content => {
-                    if (content !== dropdownContent && content.classList.contains('active')) {
+                    if (content.classList.contains('active')) {
                         content.classList.remove('active');
                         content.style.display = 'none';
                         content.closest('.dropdown').querySelector('.dropbtn').classList.remove('active');
                     }
                 });
-                
-                // Toggle current dropdown
-                if (dropdownContent.classList.contains('active')) {
-                    dropdownContent.classList.remove('active');
-                    dropdownContent.style.display = 'none';
-                    dropbtn.classList.remove('active');
-                } else {
-                    dropdownContent.classList.add('active');
-                    dropdownContent.style.display = 'block';
-                    dropbtn.classList.add('active');
-                }
             }
         });
     });
     
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        // Only close dropdowns if click is outside dropdown and not on hamburger menu
-        if (!e.target.closest('.dropdown') && !e.target.closest('.hamburger-menu')) {
-            // Don't close the entire nav-container if we're on mobile and clicked outside
-            // Only close individual dropdowns
-            document.querySelectorAll('.dropdown-content').forEach(content => {
-                if (content.classList.contains('active')) {
-                    content.classList.remove('active');
-                    content.style.display = 'none';
-                    content.closest('.dropdown').querySelector('.dropbtn').classList.remove('active');
-                }
-            });
-        }
-    });
-    
     // Close the mobile menu when clicking outside of it (but not on the hamburger icon)
-    document.addEventListener('click', function(e) {
-        if (window.innerWidth < 992) {
-            if (!e.target.closest('.nav-container') && !e.target.closest('.hamburger-menu')) {
-                if (navContainer.classList.contains('active')) {
-                    navContainer.classList.remove('active');
-                    hamburgerMenu.classList.remove('active');
+    ['click', 'touchstart'].forEach(eventType => {
+        document.addEventListener(eventType, function(e) {
+            if (window.innerWidth < 992) {
+                if (!e.target.closest('.nav-container') && !e.target.closest('.hamburger-menu')) {
+                    if (navContainer.classList.contains('active')) {
+                        navContainer.classList.remove('active');
+                        hamburgerMenu.classList.remove('active');
+                    }
                 }
             }
-        }
+        });
     });
     
     // Ensure proper behavior on window resize
@@ -110,7 +124,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Force a layout recalculation on mobile
+    function forceRepaint() {
+        document.body.style.display = 'none';
+        // Trigger a reflow
+        void document.body.offsetHeight; 
+        document.body.style.display = '';
+    }
+    
     // Run on load and resize
     adjustMegaMenuPosition();
     window.addEventListener('resize', adjustMegaMenuPosition);
+    
+    // Fix for initial mobile rendering
+    if (window.innerWidth < 992) {
+        setTimeout(forceRepaint, 100);
+    }
 });
