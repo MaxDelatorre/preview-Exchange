@@ -1,35 +1,4 @@
-/* Fix for mobile browsers */
-.touch-device .hamburger-menu {
-    -webkit-tap-highlight-color: transparent;
-}
-
-.touch-device .mobile-buttons a {
-    -webkit-tap-highlight-color: rgba(65, 105, 225, 0.3);
-}
-
-/* Fix for iOS Safari specifically */
-@supports (-webkit-touch-callout: none) {
-    .mobile-container {
-        display: flex;
-    }
-    
-    .hamburger-menu, 
-    .mobile-buttons {
-        display: flex;
-    }
-}/* Mobile container for right-aligned elements */
-.mobile-container {
-    display: none;
-    align-items: center;
-    gap: 15px;
-    margin-left: auto;
-}
-
-@media (max-width: 992px) {
-    .mobile-container {
-        display: flex;
-    }
-}/* General Reset */
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -202,6 +171,23 @@ header {
     gap: 30px;
 }
 
+/* Mobile container for right-aligned elements */
+.mobile-container {
+    display: none;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+    flex-direction: row; /* Ensure horizontal layout */
+    justify-content: flex-end; /* Align items to the right */
+}
+
+/* Button container that stays visible on mobile */
+.mobile-buttons {
+    display: none;
+    gap: 10px;
+    order: 1; /* Ensure buttons come first in flexbox */
+}
+
 /* Hamburger menu icon */
 .hamburger-menu {
     display: none;
@@ -212,6 +198,7 @@ header {
     cursor: pointer;
     margin-left: 15px;
     z-index: 101; /* Higher z-index to stay above the dropdown */
+    order: 2; /* Ensure hamburger comes second in flexbox */
 }
 
 .hamburger-menu span {
@@ -223,10 +210,25 @@ header {
     transition: all 0.3s ease;
 }
 
-/* Button container that stays visible on mobile */
-.mobile-buttons {
-    display: none;
-    gap: 10px;
+/* Fix for mobile browsers */
+.touch-device .hamburger-menu {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.touch-device .mobile-buttons a {
+    -webkit-tap-highlight-color: rgba(65, 105, 225, 0.3);
+}
+
+/* Fix for iOS Safari specifically */
+@supports (-webkit-touch-callout: none) {
+    .mobile-container {
+        display: flex;
+    }
+    
+    .hamburger-menu, 
+    .mobile-buttons {
+        display: flex;
+    }
 }
 
 /* Ensure mega menu doesn't get cut off on smaller screens */
@@ -240,7 +242,7 @@ header {
 }
 
 /* Tablet and mobile styles */
-@media (max-width: 992px) {
+@media only screen and (max-width: 992px) {
     .navbar {
         height: auto;
         padding: 20px;
@@ -256,7 +258,6 @@ header {
     /* Ensure buttons and hamburger align right */
     .mobile-container {
         display: flex;
-        align-items: center;
     }
     
     .nav-container {
@@ -362,6 +363,28 @@ header {
     .hamburger-menu {
         width: 25px;
         height: 18px;
+    }
+    
+    .mega-menu {
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .mega-menu-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-content {
+        flex-direction: column;
+    }
+    
+    .mission-container {
+        flex-direction: column;
+    }
+    
+    .mission-image, .mission-text {
+        width: 100%;
     }
 }
 
