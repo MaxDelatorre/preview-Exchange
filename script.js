@@ -25,32 +25,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const dropdownContent = dropdown.querySelector('.dropdown-content');
         const dropbtn = dropdown.querySelector('.dropbtn');
         
-        // For mobile: toggle dropdown on click/touch
+        // For ALL screen sizes: toggle dropdown on click/touch (not just mobile)
         ['click', 'touchstart'].forEach(eventType => {
             dropbtn.addEventListener(eventType, function(e) {
-                if (window.innerWidth < 992) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Close all other dropdowns
-                    document.querySelectorAll('.dropdown-content').forEach(content => {
-                        if (content !== dropdownContent && content.classList.contains('active')) {
-                            content.classList.remove('active');
-                            content.style.display = 'none';
-                            content.closest('.dropdown').querySelector('.dropbtn').classList.remove('active');
-                        }
-                    });
-                    
-                    // Toggle current dropdown
-                    if (dropdownContent.classList.contains('active')) {
-                        dropdownContent.classList.remove('active');
-                        dropdownContent.style.display = 'none';
-                        dropbtn.classList.remove('active');
-                    } else {
-                        dropdownContent.classList.add('active');
-                        dropdownContent.style.display = 'block';
-                        dropbtn.classList.add('active');
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Close all other dropdowns
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    if (content !== dropdownContent && content.classList.contains('active')) {
+                        content.classList.remove('active');
+                        content.style.display = 'none';
+                        content.closest('.dropdown').querySelector('.dropbtn').classList.remove('active');
                     }
+                });
+                
+                // Toggle current dropdown
+                if (dropdownContent.classList.contains('active')) {
+                    dropdownContent.classList.remove('active');
+                    dropdownContent.style.display = 'none';
+                    dropbtn.classList.remove('active');
+                } else {
+                    dropdownContent.classList.add('active');
+                    dropdownContent.style.display = 'block';
+                    dropbtn.classList.add('active');
                 }
             });
         });
