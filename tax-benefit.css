@@ -7,6 +7,13 @@
     text-align: center;
 }
 
+.brand-name {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
 .tax-hero-content {
     max-width: 800px;
     margin: 0 auto;
